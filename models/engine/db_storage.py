@@ -82,8 +82,6 @@ class DBStorage:
                 nm = cls.__name__
                 obj = self.__session.query(classes[nm]).filter_by(id=id).all()
                 return obj[0]
-                if object_name_id == obj:
-                    return self.__objects[obj]
 
     def count(self, cls=None):
         """method that count the number of object on the
