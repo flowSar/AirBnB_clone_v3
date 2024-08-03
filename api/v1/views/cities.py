@@ -38,7 +38,7 @@ def cities(id):
                 return {'error': 'Not a JSON'}, 400
         else:
             return abort(404)
-    
+
 
 @app_views.route('/cities/<string:id>', methods=['GET', 'DELETE', 'PUT'])
 def get_cities_by_id(id):
