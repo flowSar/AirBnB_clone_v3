@@ -86,3 +86,50 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test the get method first"""
+        mystate1 = State(name="Arizona")
+        mystate2 = State(name="Florida")
+        models.storage.new(mystate1)
+        models.storage.new(mystate2)
+        models.storage.save()
+
+        # Get the instance
+        retrieved_state = models.storage.get(State, mystate1.id)
+        self.assertEqual(retrieved_state, mystate1)
+
+        # Try getting a non-existent instance for check
+        non_existent = models.storage.get(State, "non_existent_id")
+        self.assertIsNone(non_existent)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_method(self):
+        """Test the count method first"""
+        initial_count = models.storage.count()
+
+        mystate1 = State(name="California")
+        mystate2 = State(name="Hawai")
+        models.storage.new(mystate1)
+        models.storage.new(mystate2)
+        models.storage.save()
+
+        total_count = models.storage.count()
+        state_count = models.storage.count(State)
+
+        self.assertEqual(total_count, initial_count + 2)
+        self.assertEqual(state_count, 2)
+
+        # Adding more cities
+        mycity1 = City(name="Chicago", state_id=mystate1.id)
+        mycity2 = City(name="Nashville", state_id=mystate2.id)
+        models.storage.new(mycity1)
+        models.storage.new(mycity2)
+        models.storage.save()
+
+        total_count = models.storage.count()
+        city_count = models.storage.count(City)
+
+        self.assertEqual(total_count, initial_count + 4)
+        self.assertEqual(city_count, 2)
