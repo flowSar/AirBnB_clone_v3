@@ -6,7 +6,7 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET', 'POST'])
+@app_views.route('/amenities', methods=['GET', 'POST'], strict_slashes=False)
 def amenities():
     amenities = storage.all(Amenity)
     if request.method == 'GET':
@@ -28,7 +28,8 @@ def amenities():
             return {'error': 'Not a JSON'}, 400
 
 
-@app_views.route('/amenities/<string:id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/amenities/<string:id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def amenity_by_id(id):
     amenities = storage.all(Amenity)
     key = f'Amenity.{id}'
