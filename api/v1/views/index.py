@@ -11,10 +11,9 @@ from models.user import User
 from flask import jsonify
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/status', methods=['GET'])
 def status():
-    """ Return the status of the API """
-    return jsonify({"status": "OK"}), 200
+    return jsonify({"status": "ok"}), 200
 
 
 @app_views.route('/stats', strict_slashes=False)
