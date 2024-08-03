@@ -29,7 +29,7 @@ def states():
             return {'error': 'Not a JSON'}, 400
 
 
-@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT', 'POST'])
 def states_id(id):
     all_states = storage.all(State)
     key = f'State.{id}'
@@ -55,20 +55,15 @@ def states_id(id):
             else:
                 return {'error': 'Not a JSON'}, 400
         return abort(404)
-
-
-@app_views.route('/states/<string:id>/cities', methods=['POST'])
-def cities():
-    all_states = storage.all(State)
-    key = f'State.{id}'
-    if key in all_states:
-        obj = all_states.get(key)
-        data = request.get_json(silent=True)
-        if data is not None:
-            for key, value in data.items():
-                setattr(obj, key, value)
-            obj.save()
+    elif request.method == 'POST':
+        if key in all_states:
+            obj = all_states.get(key)
+            data = request.get_json(silent=True)
+            if data is not None:
+                for key, value in data.items():
+                    setattr(obj, key, value)
+                obj.save()
+            else:
+                return {'error': 'Not a JSON'}, 400
         else:
-            return {'error': 'Not a JSON'}, 400
-    else:
-        return abort(404)
+            return abort(404)
