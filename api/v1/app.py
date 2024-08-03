@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Endpoint (route) will be to return the status of your API"""
 
-import os  # Standard library import
-from flask import Flask, jsonify  # Third-party imports
+import os
+from flask import Flask, jsonify
 from flask_cors import CORS
-from api.v1.views import app_views  # Local imports
+from api.v1.views import app_views
 from models import storage
 
 
