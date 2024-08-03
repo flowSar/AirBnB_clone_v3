@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Contains the FileStorage class for serializing and deserializing instances to/from a JSON file.
+Contains the FileStorage class for serializing
+and deserializing instances to/from a JSON file.
 """
 
 import json
@@ -23,8 +24,10 @@ classes = {
     "User": User
 }
 
+
 class FileStorage:
-    """Handles serialization and deserialization of instances to/from a JSON file."""
+    """Handles serialization and deserialization
+    of instances to/from a JSON file."""
 
     __file_path = "file.json"  # Path to the JSON file
     __objects = {}  # Dictionary to store all objects by <class name>.id
@@ -32,12 +35,12 @@ class FileStorage:
     def all(self, cls=None):
         """
         Returns a dictionary of all objects, or objects of a specified class.
-        
         Parameters:
         cls: class (optional) - filter objects by this class
-        
+
         Returns:
-        Dictionary of objects matching the specified class, or all objects if no class is specified.
+        Dictionary of objects matching the specified class,
+        or all objects if no class is specified.
         """
         if cls is not None:
             new_dict = {}
@@ -50,7 +53,7 @@ class FileStorage:
     def new(self, obj):
         """
         Adds a new object to the storage.
-        
+
         Parameters:
         obj: BaseModel instance - the object to be added
         """
@@ -88,12 +91,13 @@ class FileStorage:
     def delete(self, obj=None):
         """
         Deletes an object from __objects if it exists.
-        
+
         Parameters:
         obj: BaseModel instance - the object to be deleted
         """
         if obj is not None:
             key = f"{obj.__class__.__name__}.{obj.id}"
+            print('delete function not none', key)
             if key in self.__objects:
                 del self.__objects[key]
 
@@ -106,11 +110,11 @@ class FileStorage:
     def get(self, cls, id):
         """
         Retrieves an object based on the class and its ID.
-        
+
         Parameters:
         cls: class - the class of the object
         id: string - the ID of the object
-        
+
         Returns:
         The object matching the class and ID, or None if not found.
         """
@@ -122,15 +126,17 @@ class FileStorage:
     def count(self, cls=None):
         """
         Counts the number of objects in storage matching the given class.
-        
+
         Parameters:
         cls: class (optional) - if provided, counts objects of this class
-        
+
         Returns:
-        The number of objects in storage matching the class, or the total number if no class is specified.
+        The number of objects in storage matching the class, or
+        the total number if no class is specified.
         """
         if cls:
-            count = sum(1 for key in self.__objects if key.startswith(cls.__name__))
+            cn = cls.__name__
+            count = sum(1 for key in self.__objects if key.startswith(cn))
         else:
             count = len(self.__objects)
         return count

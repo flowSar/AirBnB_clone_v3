@@ -46,4 +46,4 @@ if __name__ == "__main__":
     port = int(os.getenv("HBNB_API_PORT", 5000))  # Default to 5000 if not set
 
     # Run the Flask app
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=host, port=port, threaded=True, debug=True)
