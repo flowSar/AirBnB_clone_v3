@@ -29,7 +29,8 @@ def states():
             return {'error': 'Not a JSON'}, 400
 
 
-@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def states_id(id):
     """Retrieve and delete and update state based on id"""
     all_states = storage.all(State)

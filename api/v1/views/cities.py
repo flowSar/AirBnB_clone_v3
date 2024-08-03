@@ -7,7 +7,8 @@ from models.state import State
 from models.city import City
 
 
-@app_views.route('/states/<string:id>/cities', methods=['GET', 'POST', 'PUT'])
+@app_views.route('/states/<string:id>/cities', methods=['GET', 'POST', 'PUT'],
+                 strict_slashes=False)
 def cities(id):
     states = storage.all(State)
     all_cities = storage.all(City)
@@ -40,7 +41,8 @@ def cities(id):
             return abort(404)
 
 
-@app_views.route('/cities/<string:id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/cities/<string:id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def get_cities_by_id(id):
     cities = storage.all(City)
     key = f'City.{id}'
