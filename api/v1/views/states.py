@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""states routers"""
 from models import storage
 from models.state import State
 from flask import jsonify, request, abort
@@ -29,7 +29,7 @@ def states():
             return {'error': 'Not a JSON'}, 400
 
 
-@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT', 'POST'])
+@app_views.route('/states/<string:id>', methods=['GET', 'DELETE', 'PUT'])
 def states_id(id):
     all_states = storage.all(State)
     key = f'State.{id}'
@@ -55,15 +55,3 @@ def states_id(id):
             else:
                 return {'error': 'Not a JSON'}, 400
         return abort(404)
-    elif request.method == 'POST':
-        if key in all_states:
-            obj = all_states.get(key)
-            data = request.get_json(silent=True)
-            if data is not None:
-                for key, value in data.items():
-                    setattr(obj, key, value)
-                obj.save()
-            else:
-                return {'error': 'Not a JSON'}, 400
-        else:
-            return abort(404)

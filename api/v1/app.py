@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """Endpoint (route) will be to return the status of your API"""
 
-import os
-from flask import Flask, jsonify
-from models import storage
 from api.v1.views import app_views
+from flask import Flask, jsonify
 from flask_cors import CORS
+from models import storage
+import os
 
 # Create a Flask app
 app = Flask(__name__)
