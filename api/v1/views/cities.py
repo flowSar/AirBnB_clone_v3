@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """cities routers"""
+from api.v1.views import app_views
+from flask import jsonify, request, abort
 from models import storage
 from models.state import State
 from models.city import City
-from flask import jsonify, request, abort
-from api.v1.views import app_views
 
 
 @app_views.route('/states/<string:id>/cities', methods=['GET', 'POST', 'PUT'])
