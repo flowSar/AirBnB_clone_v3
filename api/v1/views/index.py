@@ -13,13 +13,13 @@ from flask import jsonify
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    """ Return the status of the API """
+    """Return the status of the API """
     return jsonify({"status": "OK"}), 200
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
-    """ Retrieves the number of each object type """
+    """Retrieves the number of each object type """
     counts_obj = {
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
