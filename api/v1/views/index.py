@@ -11,12 +11,13 @@ from models.user import User
 from flask import jsonify
 
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    return jsonify({"status": "ok"}), 200
+    """ Return the status of the API """
+    return jsonify({"status": "OK"}), 200
 
 
-@app_views.route('/stats', strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """ Retrieves the number of each object type """
     counts_obj = {
