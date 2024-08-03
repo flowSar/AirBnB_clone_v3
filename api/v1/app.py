@@ -30,6 +30,7 @@ def page_not_found(e):
     """Handle 404 errors"""
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(400)
 def bad_request(e):
     """Handle 400 errors"""
@@ -37,13 +38,12 @@ def bad_request(e):
     return jsonify({"error": message}), 400
 
 
-
 if __name__ == "__main__":
     """ Main Function """
     # Retrieve environment variables or set default values
-    host = os.getenv("HBNB_API_HOST", "0.0.0.0")  # Default to '0.0.0.0' if not set
+    # Default to '0.0.0.0' if not set
+    host = os.getenv("HBNB_API_HOST", "0.0.0.0")
     port = int(os.getenv("HBNB_API_PORT", 5000))  # Default to 5000 if not set
 
     # Run the Flask app
     app.run(host=host, port=port, threaded=True)
-
