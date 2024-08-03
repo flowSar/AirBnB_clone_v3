@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Routes for the API """
 from api.v1.views import app_views
-from flask import jsonify
 from models import storage
 from models.state import State
 from models.city import City
@@ -9,12 +8,13 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.user import User
+from flask import jsonify
 
 
-@app_views.route('/status', strict_slashes=False)
+@app_views.route('/status', methods=['GET'] strict_slashes=False)
 def status():
     """ Return the status of the API """
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}), 200
 
 
 @app_views.route('/stats', strict_slashes=False)
