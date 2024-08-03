@@ -31,7 +31,7 @@ def users():
                  strict_slashes=False)
 def users_by_id(id):
     users = storage.all(User)
-    key = f'Amenity.{id}'
+    key = f'User.{id}'
     if request.method == 'GET':
         for user in users.values():
             if user.id == id:
