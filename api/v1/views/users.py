@@ -40,29 +40,23 @@ def users_by_id(user_id):
     """Retrieve and delete and update user based on id"""
     users = storage.all(User)
     key = f'User.{user_id}'
+    
+    if key not in users:
+        return abort(404)
     if request.method == 'GET':
-        for user in users.values():
-            if user.id == user_id:
-                return jsonify(user.to_dict())
-
-        return abort(404)
+        return jsonify(users.get(key).to_dict())
     elif request.method == 'DELETE':
-        for user in users.values():
-            if user.id == user_id:
-                storage.delete(user)
-                storage.save()
-                return jsonify({}), 200
-        return abort(404)
+        storage.delete(users.get(key))
+        storage.save()
+        return jsonify({}), 200
     elif request.method == 'PUT':
-        if key in users:
-            data = request.get_json(silent=True)
-            if data is not None:
-                obj = users.get(key)
-                for k, v in data.items():
-                    setattr(obj, k, v)
-                obj.save()
-                return jsonify(obj.to_dict()), 200
-            else:
-                return {'error': 'Not a JSON'}, 400
-        return abort(404)
+        data = request.get_json(silent=True)
+        if data is not None:
+            obj = users.get(key)
+            for k, v in data.items():
+                setattr(obj, k, v)
+            obj.save()
+            return jsonify(obj.to_dict()), 200
+        else:
+            return {'error': 'Not a JSON'}, 400
     return abort(404)
