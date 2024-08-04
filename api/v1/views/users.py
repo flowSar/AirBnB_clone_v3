@@ -31,10 +31,10 @@ def get_users():
                 return jsonify({'error': 'Missing email'}), 400
         else:
             return {'error': 'Not a JSON'}, 400
+    return abort(404)
 
 
-@app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'],
-                 strict_slashes=False)
+@app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
 def users_by_id(user_id):
     """Retrieve and delete and update user based on id"""
     users = storage.all(User)
@@ -58,13 +58,10 @@ def users_by_id(user_id):
             if data is not None:
                 obj = users.get(key)
                 for k, v in data.items():
-                    if k == 'email' or k == 'id' or k == 'created_at':
-                        continue
-                    if k == 'updated_at':
-                        continue
                     setattr(obj, k, v)
                 obj.save()
                 return jsonify(obj.to_dict()), 200
             else:
                 return {'error': 'Not a JSON'}, 400
         return abort(404)
+    return abort(404)

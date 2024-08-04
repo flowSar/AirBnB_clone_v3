@@ -26,6 +26,7 @@ def amenities():
                 return jsonify({'error': 'Missing name'}), 400
         else:
             return {'error': 'Not a JSON'}, 400
+    return abort(404)
 
 
 @app_views.route('/amenities/<string:id>', methods=['GET', 'DELETE', 'PUT'],
@@ -58,3 +59,4 @@ def amenity_by_id(id):
             else:
                 return {'error': 'Not a JSON'}, 400
         return abort(404)
+    return abort(404)

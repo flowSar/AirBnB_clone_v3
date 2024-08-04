@@ -51,11 +51,10 @@ def states_id(id):
             if data is not None:
                 obj = all_states.get(key)
                 for k, v in data.items():
-                    if k == 'id':
-                        continue
                     setattr(obj, k, v)
                 obj.save()
                 return jsonify(obj.to_dict()), 200
             else:
                 return {'error': 'Not a JSON'}, 400
         return abort(404)
+    return abort(404)
