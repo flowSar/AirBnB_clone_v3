@@ -8,31 +8,24 @@ from api.v1.views import app_views
 from models import storage
 
 
-# Create a Flask app
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Register the blueprint
 app.register_blueprint(app_views)
 
 
 
 @app.teardown_appcontext
 def close_storage(exception):
-    """Close the storage session"""
+    """tear down: close storage"""
     storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    """Handle 404 errors"""
+    """page not found"""
     return jsonify({"error": "Not found"}), 404
-
-
-@app.errorhandler(400)
-def bad_request(error):
-    """handle 400 error"""
-    return jsonify({"error": "Bad request"}), 400
 
 
 if __name__ == "__main__":
