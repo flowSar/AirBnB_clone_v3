@@ -58,7 +58,7 @@ def users_by_id(user_id):
             if data is not None:
                 obj = users.get(key)
                 for k, v in data.items():
-                    if k == 'email' || k == 'id' || k == 'created_at':
+                    if k == 'email' or k == 'id' or k == 'created_at':
                         continue
                     if k == 'updated_at':
                         continue

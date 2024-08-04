@@ -62,7 +62,7 @@ def get_cities_by_id(id):
             if data is not None:
                 obj = cities.get(key)
                 for k, v in data.items():
-                    if k == 'id' || k == 'created_at' || k == 'updated_at':
+                    if k == 'id' or k == 'created_at' or k == 'updated_at':
                         continue
                     if k == 'state_id':
                         continue
