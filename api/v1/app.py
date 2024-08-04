@@ -14,7 +14,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Register the blueprint
-app.register_blueprint(app_views, url_prefix="/api/v1")
+app.register_blueprint(app_views)
 
 
 # Teardown function
