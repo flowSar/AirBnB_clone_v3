@@ -38,7 +38,7 @@ def get_users():
 def users_by_id(user_id):
     users = storage.all(User)
     key = f'User.{user_id}'
-    
+
     if key not in users:
         return abort(404)
     if request.method == 'GET':
