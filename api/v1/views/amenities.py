@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""states routers"""
+"""amenities routers"""
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
