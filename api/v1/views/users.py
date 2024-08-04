@@ -9,8 +9,8 @@ from models.user import User
 @app_views.route('/users', methods=['GET', 'POST'], strict_slashes=False)
 def get_users():
     """Retrieve all user and convert them to valid json with to_dict"""
-    users = storage.all(User)
     if request.method == 'GET':
+        users = storage.all(User)
         valid_json = []
         for user in users.values():
             valid_json.append(user.to_dict())
@@ -34,7 +34,8 @@ def get_users():
     return abort(404)
 
 
-@app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
+@app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def users_by_id(user_id):
     """Retrieve and delete and update user based on id"""
     users = storage.all(User)
