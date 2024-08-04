@@ -30,10 +30,9 @@ def page_not_found(e):
 
 
 @app.errorhandler(400)
-def bad_request(e):
-    """Handle 400 errors"""
-    message = e.description if hasattr(e, 'description') else "Bad request"
-    return jsonify({"error": message}), 400
+def bad_request(error):
+    """handle 400 error"""
+    return jsonify({"error": "Bad request"}), 400
 
 
 if __name__ == "__main__":
