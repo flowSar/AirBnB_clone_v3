@@ -18,32 +18,36 @@ def get_users():
     elif request.method == 'POST':
         data = request.get_json(silent=True)
         if data is not None:
-            if 'name' in data:
-                user = User()
-                user.name = data.get('name')
-                user.save()
-                return jsonify(user.to_dict()), 201
+            if 'email' in data:
+                if 'password' in data:
+                    user = User()
+                    user.email = data.get('email')
+                    user.password = data.get('password')
+                    user.save()
+                    return jsonify(user.to_dict()), 201
+                else:
+                    return jsonify({'error': 'Missing password'}), 400
             else:
-                return jsonify({'error': 'Missing name'}), 400
+                return jsonify({'error': 'Missing email'}), 400
         else:
             return {'error': 'Not a JSON'}, 400
 
 
-@app_views.route('/users/<string:id>', methods=['GET', 'DELETE', 'PUT'],
+@app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def users_by_id(id):
+def users_by_id(user_id):
     """Retrieve and delete and update user based on id"""
     users = storage.all(User)
-    key = f'User.{id}'
+    key = f'User.{user_id}'
     if request.method == 'GET':
         for user in users.values():
-            if user.id == id:
+            if user.id == user_id:
                 return jsonify(user.to_dict())
 
         return abort(404)
     elif request.method == 'DELETE':
         for user in users.values():
-            if user.id == id:
+            if user.id == user_id:
                 storage.delete(user)
                 storage.save()
                 return jsonify({}), 200
@@ -54,6 +58,10 @@ def users_by_id(id):
             if data is not None:
                 obj = users.get(key)
                 for k, v in data.items():
+                    if k == 'email' || k == 'id' || k == 'created_at':
+                        continue
+                    if k == 'updated_at':
+                        continue
                     setattr(obj, k, v)
                 obj.save()
                 return jsonify(obj.to_dict()), 200

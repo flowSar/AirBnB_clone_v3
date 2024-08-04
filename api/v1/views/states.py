@@ -51,6 +51,8 @@ def states_id(id):
             if data is not None:
                 obj = all_states.get(key)
                 for k, v in data.items():
+                    if k == 'id' || k == 'created_at' || k == 'updated_at':
+                        continue
                     setattr(obj, k, v)
                 obj.save()
                 return jsonify(obj.to_dict()), 200

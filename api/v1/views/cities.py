@@ -62,6 +62,10 @@ def get_cities_by_id(id):
             if data is not None:
                 obj = cities.get(key)
                 for k, v in data.items():
+                    if k == 'id' || k == 'created_at' || k == 'updated_at':
+                        continue
+                    if k == 'state_id':
+                        continue
                     setattr(obj, k, v)
                 obj.save()
                 return jsonify(obj.to_dict()), 200
