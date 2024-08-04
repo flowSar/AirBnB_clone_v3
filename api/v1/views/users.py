@@ -30,7 +30,6 @@ def get_users():
                 return jsonify({'error': 'Missing email'}), 400
         else:
             return {'error': 'Not a JSON'}, 400
-    return abort(404)
 
 
 @app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'],

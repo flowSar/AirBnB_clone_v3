@@ -8,7 +8,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.user import User
-from flask import jsonify
+from flask import jsonify, make_response
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
