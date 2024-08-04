@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Routes for the API """
+
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -27,3 +28,4 @@ def get_stats():
         "users": storage.count(User)
     }
     return jsonify(counts_obj)
+
