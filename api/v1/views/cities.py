@@ -62,9 +62,7 @@ def get_cities_by_id(id):
             if data is not None:
                 obj = cities.get(key)
                 for k, v in data.items():
-                    if k == 'id' or k == 'created_at' or k == 'updated_at':
-                        continue
-                    if k == 'state_id':
+                    if k == 'id' or k == 'state_id':
                         continue
                     setattr(obj, k, v)
                 obj.save()
