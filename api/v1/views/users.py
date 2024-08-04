@@ -57,4 +57,3 @@ def users_by_id(user_id):
             return jsonify(obj.to_dict()), 200
         else:
             return {'error': 'Not a JSON'}, 400
-    return abort(404)
