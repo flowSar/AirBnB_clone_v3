@@ -10,7 +10,6 @@ from models.user import User
 @app_views.route('/cities/<string:city_id>/places', methods=['GET', 'POST'],
                  strict_slashes=False)
 def get_places_by_city(city_id):
-    """handel GET/POST request fo /cities/<string:city_id>/places route"""
     cities = storage.all(City)
     places = storage.all(Place)
     key = f'City.{city_id}'
@@ -48,7 +47,6 @@ def get_places_by_city(city_id):
 @app_views.route('/places/<string:place_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def get_places_by_id(place_id):
-    """handel GET DELETE PUT request fo /place/place_id route"""
     places = storage.all(Place)
     key = f'Place.{place_id}'
     to_ignore = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
