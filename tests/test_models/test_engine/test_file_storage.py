@@ -123,12 +123,8 @@ class TestFileStorage(unittest.TestCase):
         storage.new(mystate1)
         storage.new(mystate2)
         storage.save()
-
-        # Retrieve the instance
         retrieved_state = storage.get(State, mystate1.id)
         self.assertEqual(retrieved_state, mystate1)
-
-        # Try getting a non-existent instance
         non_existent = storage.get(State, "non_existent_id")
         self.assertIsNone(non_existent)
 
@@ -137,7 +133,6 @@ class TestFileStorage(unittest.TestCase):
         """Test the count method"""
         storage = FileStorage()
         initial_count = storage.count()
-
         mystate1 = State(name="California")
         mystate2 = State(name="Hawai")
         mycity1 = City(name="Chicago", state_id=mystate1.id)
@@ -147,11 +142,9 @@ class TestFileStorage(unittest.TestCase):
         storage.new(mycity1)
         storage.new(mycity2)
         storage.save()
-
         total_count = storage.count()
         state_count = storage.count(State)
         city_count = storage.count(City)
-
         self.assertEqual(total_count, initial_count + 4)
         self.assertEqual(state_count, 2)
         self.assertEqual(city_count, 2)

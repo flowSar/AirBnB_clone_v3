@@ -15,9 +15,9 @@ class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(self):
         """Set up for docstring tests"""
-        cls.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
@@ -58,7 +58,6 @@ class TestBaseModelDocs(unittest.TestCase):
 
 class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class"""
-
     def test_instantiation(self):
         """Test that object is correctly created"""
         inst = BaseModel()
@@ -83,18 +82,14 @@ class TestBaseModel(unittest.TestCase):
         """Test that two BaseModel instances have different datetime objects
         and that upon creation have identical updated_at and created_at
         value."""
-        tic = datetime.now()
-        time.sleep(0.01)  # Add a small delay to ensure the timing is captured
+        tic = datetime.utcnow()
         inst1 = BaseModel()
-        toc = datetime.now()
-        print(f"tic: {tic}, inst1.created_at: {inst1.created_at}, toc: {toc}")  # Debug statement
+        toc = datetime.utcnow()
         self.assertTrue(tic <= inst1.created_at <= toc)
-        time.sleep(0.01)  # Add a small delay
-        tic = datetime.now()
-        time.sleep(0.01)
+        time.sleep(1e-4)
+        tic = datetime.utcnow()
         inst2 = BaseModel()
-        toc = datetime.now()
-        print(f"tic: {tic}, inst2.created_at: {inst2.created_at}, toc: {toc}")  # Debug statement
+        toc = datetime.utcnow()
         self.assertTrue(tic <= inst2.created_at <= toc)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
@@ -163,4 +158,3 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
-
