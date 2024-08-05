@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 """ Index module for handling API status and stats """
+from api.v1.views import app_views
 from flask import jsonify
 from models import storage
-from api.v1.views import app_views
+
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def status():
+def get_status():
     """ Returns the status of the API """
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def stats():
+def get_stats():
     """ Returns the number of each object by type """
     counts = {
         "amenities": storage.count("Amenity"),
