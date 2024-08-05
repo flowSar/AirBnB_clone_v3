@@ -6,7 +6,7 @@ from flask import Blueprint
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 from api.v1.views.index import status, stats
 from api.v1.views.states import *
-from api.v1.views.cities import get_cities, get_cities_by_id
+from api.v1.views.cities import *
 from api.v1.views.amenities import get_amenities, amenity_by_id
 from api.v1.views.users import get_users, users_by_id
 from api.v1.views.places import get_places_by_city, get_places_by_id
