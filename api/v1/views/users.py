@@ -37,24 +37,22 @@ def get_users():
                  strict_slashes=False)
 def users_by_id(user_id):
     """get users by id"""
-    users = storage.all(User)
-    key = f'User.{user_id}'
+    user = storage.get(User, user_id)
 
-    if key not in users:
+    if user:
         return abort(404)
     if request.method == 'GET':
-        return jsonify(users.get(key).to_dict())
+        return jsonify(user.to_dict())
     elif request.method == 'DELETE':
-        storage.delete(users.get(key))
+        storage.delete(user)
         storage.save()
         return jsonify({}), 200
     elif request.method == 'PUT':
         data = request.get_json(silent=True)
         if data is not None:
-            obj = users.get(key)
             for k, v in data.items():
-                setattr(obj, k, v)
-            obj.save()
-            return jsonify(obj.to_dict()), 200
+                setattr(user, k, v)
+            user.save()
+            return jsonify(user.to_dict()), 200
         else:
             return {'error': 'Not a JSON'}, 400
