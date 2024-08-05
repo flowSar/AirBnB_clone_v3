@@ -7,7 +7,7 @@ from models.amenity import Amenity
 
 
 @app_views.route('/amenities', methods=['GET', 'POST'], strict_slashes=False)
-def amenities():
+def get_amenities():
     amenities = storage.all(Amenity)
     if request.method == 'GET':
         valid_json = []
