@@ -30,12 +30,12 @@ def get_users():
             else:
                 return jsonify({'error': 'Missing email'}), 400
         else:
-            return {'error': 'Not a JSON'}, 400
+            return jsonify({'error': 'Not a JSON'}), 400
 
 
 @app_views.route('/users/<string:user_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def users_by_id(user_id):
+def get_user_by_id(user_id):
     """get users by id"""
     user = storage.get(User, user_id)
 
@@ -55,4 +55,4 @@ def users_by_id(user_id):
             user.save()
             return jsonify(user.to_dict()), 200
         else:
-            return {'error': 'Not a JSON'}, 400
+            return jsonify({'error': 'Not a JSON'}), 400
