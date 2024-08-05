@@ -80,6 +80,7 @@ def post_review(place_id):
                  strict_slashes=False)
 def update_review(review_id):
     """ update place instance """
+    keys = ['id', 'created_at', 'updated_at', 'user_id', 'place_id']
     if review_id is None:
         return abort(404)
     review = storage.get(Review, review_id)
@@ -89,9 +90,7 @@ def update_review(review_id):
         return 'Not a JSON', 400
     body = request.get_json()
     for key, value in body.items():
-        if key == 'id' or key == 'created_at' or key == 'updated_at' or\
-                key == 'user_id' or key == 'place_id':
-            continue
-        setattr(review, key, value)
+        if key not in keys:
+            setattr(review, key, value)
     storage.save()
     return jsonify(review.to_dict()), 200

@@ -1,4 +1,4 @@
-bug#!/usr/bin/python3
+#!/usr/bin/python3
 """ Flask Application """
 
 from os import environ
