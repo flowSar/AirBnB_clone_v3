@@ -7,7 +7,7 @@ from models.state import State
 
 
 @app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
-def states():
+def get_states():
     """Retrieve all states and convert them to valid json with to_dict"""
     if request.method == 'GET':
         all_states = storage.all(State)

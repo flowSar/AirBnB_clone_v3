@@ -9,7 +9,7 @@ from models.city import City
 
 @app_views.route('/states/<string:id>/cities', methods=['GET', 'POST', 'PUT'],
                  strict_slashes=False)
-def cities(id):
+def get_cities(id):
     states = storage.all(State)
     all_cities = storage.all(City)
     key = f'State.{id}'
