@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ Index module for handling API status and stats """
-
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
