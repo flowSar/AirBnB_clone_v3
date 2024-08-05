@@ -8,7 +8,7 @@ from models.user import User
 
 @app_views.route('/users', methods=['GET', 'POST'], strict_slashes=False)
 def get_users():
-    """get users"""
+    """get all users and and new user with POST request"""
     if request.method == 'GET':
         users = storage.all(User)
         valid_json = []
@@ -39,7 +39,7 @@ def get_user_by_id(user_id):
     """get users by id"""
     user = storage.get(User, user_id)
 
-    if user:
+    if not user:
         return abort(404)
     if request.method == 'GET':
         return jsonify(user.to_dict())
