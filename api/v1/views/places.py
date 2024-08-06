@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""users routers"""
+"""places routers"""
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
