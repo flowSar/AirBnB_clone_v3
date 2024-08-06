@@ -6,7 +6,7 @@ from models import storage
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
-from api.v1.views import index
+from api.v1.views.index import *
 # from api.v1.views.states import get_states, states_id
 # from api.v1.views.cities import *
 # from api.v1.views.amenities import get_amenities, amenity_by_id
