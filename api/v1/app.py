@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Flask Application
+"""
+Flask Application
 
 This module sets up the Flask application, registers blueprints,
 handles CORS, and defines error handlers and teardown functions.
