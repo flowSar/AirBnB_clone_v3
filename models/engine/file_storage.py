@@ -96,7 +96,7 @@ class FileStorage:
         obj: BaseModel instance - the object to be deleted
         """
         if obj is not None:
-            key = f"{obj.__class__.__name__}.{obj.id}"
+            key = f"{}.{}".formate(obj.__class__.__name__, obj.id)
             print('delete function not none', key)
             if key in self.__objects:
                 del self.__objects[key]
@@ -119,7 +119,7 @@ class FileStorage:
         The object matching the class and ID, or None if not found.
         """
         if cls and id:
-            key = f"{cls.__name__}.{id}"
+            key = f"{}.{}".format(cls.__name__, id)
             return self.__objects.get(key, None)
         return None
 
