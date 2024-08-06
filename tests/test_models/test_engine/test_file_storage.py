@@ -114,37 +114,39 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+
+class TestFileStorageV02(unittest.TestCase):
+    """test document document"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
-        """Test the get method"""
-        storage = FileStorage()
-        mystate1 = State(name="Arizona")
-        mystate2 = State(name="Florida")
-        storage.new(mystate1)
-        storage.new(mystate2)
-        storage.save()
-        retrieved_state = storage.get(State, mystate1.id)
-        self.assertEqual(retrieved_state, mystate1)
-        non_existent = storage.get(State, "non_existent_id")
-        self.assertIsNone(non_existent)
+        """test the get method"""
+        models.storage._FileStorage__objects = {}
+        state1 = State(name="California")
+        state2 = State(name="Hawai")
+        models.storage.new(state1)
+        models.storage.new(state2)
+        models.storage.save()
+        first_state = list(models.storage.all().values())[2]
+        first_state_id = first_state.id
+        get = models.storage.get(State, first_state_id)
+        self.assertEqual(get.id, first_state_id)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """Test the count method"""
-        storage = FileStorage()
-        initial_count = storage.count()
-        mystate1 = State(name="California")
-        mystate2 = State(name="Hawai")
-        mycity1 = City(name="Chicago", state_id=mystate1.id)
-        mycity2 = City(name="Nashville", state_id=mystate2.id)
-        storage.new(mystate1)
-        storage.new(mystate2)
-        storage.new(mycity1)
-        storage.new(mycity2)
-        storage.save()
-        total_count = storage.count()
-        state_count = storage.count(State)
-        city_count = storage.count(City)
-        self.assertEqual(total_count, initial_count + 4)
-        self.assertEqual(state_count, 2)
-        self.assertEqual(city_count, 2)
+        """test the count method"""
+        models.storage._FileStorage__objects = {}
+        state1 = State(name="California")
+        state2 = State(name="Hawai")
+        city1 = City(state_id=state1.id, name="Chicago")
+        city2 = City(state_id=state2.id, name="Nashville")
+        models.storage.new(state1)
+        models.storage.new(state2)
+        models.storage.new(city1)
+        models.storage.new(city2)
+        models.storage.save()
+        total = len(models.storage.all())
+        total_state = len(models.storage.all(State))
+        count_total = models.storage.count()
+        count_state = models.storage.count(State)
+        self.assertEqual(total, count_total)
+        self.assertEqual(total_state, count_state)

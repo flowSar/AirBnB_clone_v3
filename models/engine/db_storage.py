@@ -21,64 +21,58 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """Interacts with the MySQL database"""
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
 
     def __init__(self):
-        """Instantiate our DBStorage object"""
+        """Instantiate a DBStorage object"""
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        # It creates the engine for the MySQL database connection
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
-        # Drop all tables if the environment is test
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Query on the current database session"""
+        """query on the current database session"""
         new_dict = {}
-        # Iterate over all classes
         for clss in classes:
-            # If no class is specified or the class matches, query the objects
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
-                # Add each object to the new dictionary with its key
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
-        return new_dict
+        return (new_dict)
 
     def new(self, obj):
-        """Add the object to the current database session"""
+        """add the object to the current database session"""
         self.__session.add(obj)
 
     def save(self):
-        """Commit all changes of the current database session"""
+        """commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete from the current database session obj if not None"""
+        """delete from the current database session obj if not None"""
         if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
-        """Reloads data from the database"""
-        # Create all tables in the database
+        """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
 
     def close(self):
-        """Call remove() method on the private session attribute"""
+        """call remove() method on the private session attribute"""
         self.__session.remove()
 
     def get(self, cls, id):
@@ -92,12 +86,9 @@ class DBStorage:
         Returns:
         The object based on the class and its ID, or None if not found
         """
-        # Check if cls and id are provided
-        if cls and id:
-            # Ensure cls is a valid class
-            if cls.__name__ in classes:
-                # Query the object by ID
-                return self.__session.query(classes[cls.__name__]).get(id)
+        if cls:
+            obj = self.__session.query(cls).get(id)
+            return obj
         return None
 
     def count(self, cls=None):
@@ -112,13 +103,8 @@ class DBStorage:
         If no class is passed, returns the count of all objects in storage.
         """
         if cls:
-            # Ensure cls is a valid class
-            if cls.__name__ in classes:
-                # Count the objects of the specified class
-                return self.__session.query(classes[cls.__name__]).count()
+            all_objs_dict = self.all(cls)
+            count = len(all_objs_dict)
         else:
-            count = 0
-            # Iterate over all classes and count their objects
-            for clss in classes.values():
-                count += self.__session.query(clss).count()
-            return count
+            count = len(self.all())
+        return count
