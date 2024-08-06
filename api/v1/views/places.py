@@ -7,7 +7,9 @@ from models.place import Place
 from models.city import City
 from models.user import User
 
-@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'], strict_slashes=False)
+
+@app_views.route('/cities/<string:city_id>/places', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def get_places_by_city(city_id):
     """Retrieve places by city or create a new place"""
     city = storage.get(City, city_id)
@@ -37,7 +39,8 @@ def get_places_by_city(city_id):
         return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
+@app_views.route('/places/<string:place_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def get_places_by_id(place_id):
     """Retrieve, delete, or update a place by ID"""
     place = storage.get(Place, place_id)
