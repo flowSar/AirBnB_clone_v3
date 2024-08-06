@@ -32,7 +32,7 @@ def get_amenities():
                  strict_slashes=False)
 def amenity_by_id(id):
     amenities = storage.all(Amenity)
-    key = f'Amenity.{id}'
+    key = 'Amenity.{}'.format(id)
     if request.method == 'GET':
         for amenity in amenities.values():
             if amenity.id == id:
