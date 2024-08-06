@@ -5,35 +5,29 @@ Flask Application
 This module sets up the Flask application, registers blueprints,
 handles CORS, and defines error handlers and teardown functions.
 """
+import os
 from models import storage
-from api.v1.views.index import app_views
-from os import environ
-from flask import Flask, make_response, jsonify
+from api.v1.views import app_views
+from flask import Flask, Blueprint, jsonify, make_response
 from flask_cors import CORS
 
 
-# Initialize the Flask application
 app = Flask(__name__)
-
-# Configure the Flask application
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-
-# Register the blueprint for API views
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
-# Enable CORS for the application
-CORS(app, origins='0.0.0.0')
 
 @app.teardown_appcontext
-def close_db(error):
+def teardown_appcontext(code):
     """ Close Storage
     This function is called when the app context is torn down. It ensures
     that the storage is properly closed.
     """
     storage.close()
 
+
 @app.errorhandler(404)
-def not_found(error):
+def page_not_found(error):
     """ 404 Error Handler
     This function handles 404 errors by returning a JSON response
     with an error message.
@@ -44,12 +38,11 @@ def not_found(error):
     Returns:
         A JSON response with a 404 status code and an error message.
     """
-    return make_response(jsonify({'error': "Not found"}), 404)
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == "__main__":
     """ Main Function
     This function runs the Flask application with the specified host and port.
     """
-    host = environ.get('HBNB_API_HOST', '0.0.0.0')
-    port = environ.get('HBNB_API_PORT', '5000')
-    app.run(host=host, port=int(port), threaded=True, debug=True)
+    app.run(host=os.getenv('HBNB_API_HOST', '0.0.0.0'),
+            port=int(os.getenv('HBNB_API_PORT', '5000')))
