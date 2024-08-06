@@ -34,7 +34,7 @@ def get_states():
 def states_id(id):
     """Retrieve and delete and update state based on id"""
     all_states = storage.all(State)
-    key = f'State.{id}'
+    key = 'State.{}'.format(id)
     if request.method == 'GET':
         if key in all_states:
             return jsonify(all_states.get(key).to_dict())
